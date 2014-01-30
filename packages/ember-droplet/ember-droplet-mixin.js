@@ -47,6 +47,13 @@
         uploadStatus: { uploading: false, percentComplete: 0, error: false },
 
         /**
+         * @property autoUpload
+         * @type {Boolean}
+         * Triggers file upload automatically after adding files.
+         */
+        autoUpload: false,
+        
+        /**
          * @constructor
          * @method init
          * Clears the file array for each instantiation.
@@ -70,7 +77,12 @@
              * @return {Object}
              */
             addValidFile: function(file) {
-                return this._addFile(file, true);
+                record = this._addFile(file, true);
+                if (this.get('autoUpload') === true) {
+                    this.send('uploadAllFiles');
+                }
+                
+                return record;
             },
 
             /**
